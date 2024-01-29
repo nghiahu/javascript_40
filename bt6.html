@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <form id="loginForm">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br>
+        <button type="submit">Document</button>
+    </form>
+    <div id="errorMessage"></div>
+    <script>
+        let loginForm = document.getElementById('loginForm');
+        let usernameInput = document.getElementById('username');
+        let passwordInput = document.getElementById('password');
+        let errorMessageElement = document.getElementById('errorMessage');
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        function checkUser(username, password) {
+            for (let i = 0; i < users.length; i++) {
+                if (users[i].username === username && users[i].password === password) {
+                    return users[i];
+                }
+            }
+            return null;
+        }
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+            let username = usernameInput.value;
+            let password = passwordInput.value;
+            let user = checkUser(username, password);
+            if (user) {
+                sessionStorage.setItem('user', JSON.stringify(user));
+                alert("Đăng nhập thành công");
+            } else {
+                alert("Đăng nhập thất bại")
+            }
+        }
+        loginForm.addEventListener('submit', handleFormSubmit);
+    </script>
+</body>
+</html>

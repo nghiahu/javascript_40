@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .player-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .player-list li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="player-form">
+            <input type="text" id="player-name" name="player-name" placeholder="Nhập tên cầu thủ">
+            <button type="submit">Thêm cầu thủ</button>
+        </form>
+        <ul class="player-list" id="player-list"></ul>
+    </div>
+    <script>
+        const playerForm = document.getElementById('player-form');
+        const playerList = document.getElementById('player-list');
+        let nextPlayerId = 1; 
+        function loadPlayers() {
+            const players = Object.entries(localStorage);
+            playerList.innerHTML = '';
+            players.forEach(([id, name]) => {
+                const li = document.createElement('li');
+                li.textContent = `${id}. ${name}`;
+                playerList.appendChild(li);
+            });
+        }
+
+        playerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const playerName = document.getElementById('player-name').value;
+            localStorage.setItem(nextPlayerId, playerName);
+            const li = document.createElement('li');
+            li.textContent = `${nextPlayerId}. ${playerName}`;
+            playerList.appendChild(li);
+            nextPlayerId++;
+            playerForm.reset();
+        });
+
+        loadPlayers();
+    </script>
+</body>
+</html>

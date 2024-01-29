@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Name Input</title>
+</head>
+<body>
+    <input type="text" id="userNameInput" placeholder="Nhập tên người dùng">
+    <button id="addUserNameButton">Thêm</button>
+    <button id="deleteUserNameButton" >Xóa</button>
+    <p id="userNameDisplay"></p>
+
+    <script>
+        let userNameInput = document.getElementById('userNameInput');
+        let addUserNameButton = document.getElementById('addUserNameButton');
+        let deleteUserNameButton = document.getElementById('deleteUserNameButton');
+        let userNameDisplay = document.getElementById('userNameDisplay');
+        
+        addUserNameButton.addEventListener('click', () => {
+            let userName = userNameInput.value;
+            if (userName) {
+                localStorage.setItem('userName', userName);
+                userNameDisplay.textContent = `Tên người dùng: ${userName}`; 
+                addUserNameButton.style.display = 'none';
+                deleteUserNameButton.style.display = 'inline-block'; 
+                userNameInput.value = '';
+            }
+        });
+        deleteUserNameButton.addEventListener('click', () => {
+            localStorage.removeItem('userName');
+            addUserNameButton.style.display = 'inline-block';
+            userNameDisplay.textContent = '';
+        });
+        let userName = localStorage.getItem('userName');
+        if (userName) {
+            userNameDisplay.textContent = `Tên người dùng: ${userName}`;
+            addUserNameButton.style.display = 'none';
+            deleteUserNameButton.style.display = 'inline-block';
+        }
+    </script>
+</body>
+</html>

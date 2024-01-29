@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .player-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .player-list li {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="delete-player-form">
+            <input type="number" id="delete-player-id" name="delete-player-id" placeholder="Nhập id cầu thủ cần xóa">
+            <button type="submit">Xóa cầu thủ</button>
+        </form>
+        <ul class="player-list" id="player-list"></ul>
+    </div>
+    <script>
+        const playerList = document.getElementById('player-list');
+        const deletePlayerForm = document.getElementById('delete-player-form');
+
+        function loadPlayers() {
+            const players = Object.entries(localStorage);
+            playerList.innerHTML = '';
+            players.forEach(([id, name]) => {
+                const li = document.createElement('li');
+                li.textContent = `${id}. ${name}`;
+                playerList.appendChild(li);
+            });
+        }
+
+        deletePlayerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const deletePlayerId = document.getElementById('delete-player-id').value;
+            localStorage.removeItem(deletePlayerId);
+            const players = Object.entries(localStorage);
+            playerList.innerHTML = '';
+            players.forEach(([id, name]) => {
+                const li = document.createElement('li');
+                li.textContent = `${id}. ${name}`;
+                playerList.appendChild(li);
+            });
+            deletePlayerForm.reset();
+        });
+
+        loadPlayers();
+    </script>
+</body>
+</html>
